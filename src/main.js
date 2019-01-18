@@ -37,6 +37,16 @@ $(document).ready(function() {
       }
       else {
         body.data.forEach(function(element) {
+          let acceptingValue = element.practices[0].accepts_new_patients
+          function returnYesNo(value) {
+            let result;
+            if (value == true) {
+              result = "Yes"
+            }
+            else {result = "No"}
+            return result
+          }
+          const acceptNewPatients = returnYesNo(acceptingValue);
           $(".resultDiv").append(`<div class="accordion" id="accordionExample">
                                     <div class="card">
                                       <div class="card-header" id="headingOne">
@@ -53,7 +63,11 @@ $(document).ready(function() {
                                           <br>
                                           ${element.profile.bio}
                                           <br>
-                                          
+                                          Phone Number - ${element.practices[0].phones[0].number}
+                                          <br>
+                                          Address - ${element.practices[0].name} ${element.practices[0].visit_address.city}, ${element.practices[0].visit_address.state_long} ${element.practices[0].visit_address.street} ${element.practices[0].visit_address.zip}
+                                          <br>
+                                          Accepting New Patients - ${acceptNewPatients}
                                         </div>
                                       </div>`
             )
