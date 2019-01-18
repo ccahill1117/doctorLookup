@@ -16,9 +16,6 @@ $(document).ready(function() {
     const userZip = $("#inputCity").val();
     const lookupZip = zipcodes.lookup(userZip);
     $(".resultDiv").empty();
-    console.log(userIssue);
-    console.log(userZip);
-    console.log(lookupZip.city, lookupZip.latitude, lookupZip.longitude);
     const drPromise = doctor.getDoctor(userIssue, lookupZip.latitude, lookupZip.longitude);
     APICallIssue(userIssue,lookupZip.latitude,lookupZip.longitude,drPromise);
   });
@@ -30,12 +27,7 @@ $(document).ready(function() {
     const userZipNames = $("#inputCity2").val();
     const lookupZipNames = zipcodes.lookup(userZipNames);
     $(".resultDiv").empty();
-    console.log(userFirstName);
-    console.log(userLastName);
-    console.log(userZipNames);
-    console.log(lookupZipNames.city, lookupZipNames.latitude, lookupZipNames.longitude);
     const drPromise = doctor.getDoctorNames(userFirstName,userLastName,lookupZipNames.latitude,lookupZipNames.longitude);
     APICallNames(userFirstName,userLastName,lookupZipNames.latitude,lookupZipNames.longitude,drPromise);
   });
-
 });
