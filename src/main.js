@@ -8,6 +8,8 @@ const zipcodes = require('zipcodes');
 
 $(document).ready(function() {
 
+  const doctor = new Doctor
+
   const zipObj = zipcodes.random();
   console.log(zipObj);
 
@@ -20,8 +22,18 @@ $(document).ready(function() {
     console.log(userIssue);
     console.log(userZip);
     console.log(lookupZip.city, lookupZip.latitude, lookupZip.longitude);
-
+    APICall(userIssue,lookupZip.latitude,lookupZip.longitude);
 
   });
 
+  function APICall(issue,lat,long) {
+    let promise = doctor.getDoctor(issue, lat, long);      
+    promise.then(function(response) {
+      let body = JSON.parse(response);
+      console.log(body);
+    },
+    function(error) {
+      $('#errorDiv').text(`There was an error processing your request`);
+    });
+  }
 });

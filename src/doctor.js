@@ -5,10 +5,10 @@ export class Doctor {
 
   }
 
-  getDoctor(issue, zip) {
+  getDoctor(issue, lat, long) {
     return new Promise(function(resolve, reject) {
     let request = new XMLHttpRequest();
-    let url = `https://api.betterdoctor.com/2016-03-01/doctors?query=${issue}&location=37.773%2C-122.413%2C100&user_location=37.773%2C-122.413&skip=0&limit=10&user_key=b8530b43e3865b1ffb5d8829ff843736`;
+    let url = `https://api.betterdoctor.com/2016-03-01/doctors?query=${issue}&location=${lat}%2C${long}%2C50&user_location=${lat}%2C${long}&skip=0&limit=10&user_key=${process.env.exports.apiKey}`;
       request.onload = function() {
         if (this.status === 200) {
           resolve(request.response);
