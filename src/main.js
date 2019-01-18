@@ -7,11 +7,7 @@ import 'zipcodes'
 const zipcodes = require('zipcodes');
 
 $(document).ready(function() {
-
   const doctor = new Doctor
-
-  const zipObj = zipcodes.random();
-  console.log(zipObj);
 
   $("#issueForm").submit(function(event) {
     event.preventDefault();
@@ -23,18 +19,6 @@ $(document).ready(function() {
     console.log(userZip);
     console.log(lookupZip.city, lookupZip.latitude, lookupZip.longitude);
     APICallIssue(userIssue,lookupZip.latitude,lookupZip.longitude);
-  });
-
-  $("#nameForm").submit(function(event) {
-    event.preventDefault();
-    const userFirstName = $("#inputDrFirst").val();
-    const userLastName = $("#inputDrLast").val();
-    const userZipNames = $("#inputCity2").val();
-    const lookupZipNames = zipcodes.lookup(userZipNames);
-    console.log(userIssue);
-    console.log(userZip);
-    console.log(lookupZip.city, lookupZip.latitude, lookupZip.longitude);
-    APICallNames(userIssue,lookupZip.latitude,lookupZip.longitude);
   });
 
   function APICallIssue(issue,lat,long) {
@@ -58,38 +42,51 @@ $(document).ready(function() {
           }
           const acceptNewPatients = returnYesNo(acceptingValue);
           $(".resultDiv").append(`<div class="accordion" id="accordionExample">
-                                    <div class="card">
-                                      <div class="card-header" id="headingOne">
-                                        <h5 class="mb-0">
-                                          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                            ${element.profile.last_name}, ${element.profile.first_name}, ${element.profile.title}
-                                          </button>
-                                        </h5>
-                                      </div>
+          <div class="card">
+          <div class="card-header" id="headingOne">
+          <h5 class="mb-0">
+          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+          ${element.profile.last_name}, ${element.profile.first_name}, ${element.profile.title}
+          </button>
+          </h5>
+          </div>          
+          <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+          <div class="card-body">
+          <img src="${element.profile.image_url}">
+          <br>
+          ${element.profile.bio}
+          <br>
+          Phone Number - ${element.practices[0].phones[0].number}
+          <br>
+          Address - ${element.practices[0].name} ${element.practices[0].visit_address.city}, ${element.practices[0].visit_address.state_long} ${element.practices[0].visit_address.street} ${element.practices[0].visit_address.zip}
+          <br>
+          Accepting New Patients - ${acceptNewPatients}
+          </div>
+          </div>`
+        )
+      })
+    }
+  },
+  function(error) {
+    $('.resultDiv').text(`There was an error processing your request`);
+  });
+}
+  $("#nameForm").submit(function(event) {
+    event.preventDefault();
+    const userFirstName = $("#inputDrFirst").val();
+    const userLastName = $("#inputDrLast").val();
+    const userZipNames = $("#inputCity2").val();
+    const lookupZipNames = zipcodes.lookup(userZipNames);
+    $(".resultDiv").empty();
+    console.log(userFirstName);
+    console.log(userLastName);
+    console.log(userZipNames);
+    console.log(lookupZipNames.city, lookupZipNames.latitude, lookupZipNames.longitude);
+    APICallNames(userFirstName,userLastName,lookupZipNames.latitude,lookupZipNames.longitude);
+  });
 
-                                      <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                          <img src="${element.profile.image_url}">
-                                          <br>
-                                          ${element.profile.bio}
-                                          <br>
-                                          Phone Number - ${element.practices[0].phones[0].number}
-                                          <br>
-                                          Address - ${element.practices[0].name} ${element.practices[0].visit_address.city}, ${element.practices[0].visit_address.state_long} ${element.practices[0].visit_address.street} ${element.practices[0].visit_address.zip}
-                                          <br>
-                                          Accepting New Patients - ${acceptNewPatients}
-                                        </div>
-                                      </div>`
-            )
-        })
-      }
-    },
-    function(error) {
-      $('.resultDiv').text(`There was an error processing your request`);
-    });
-  }
   function APICallNames(firstName,lastName,lat,long) {
-    let promise = doctor.getDoctorNames(firstName, lastName lat, long);
+    let promise = doctor.getDoctorNames(firstName, lastName, lat, long);
     promise.then(function(response) {
       let body = JSON.parse(response);
       console.log(body);
@@ -109,34 +106,33 @@ $(document).ready(function() {
           }
           const acceptNewPatients = returnYesNo(acceptingValue);
           $(".resultDiv").append(`<div class="accordion" id="accordionExample">
-                                    <div class="card">
-                                      <div class="card-header" id="headingOne">
-                                        <h5 class="mb-0">
-                                          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                            ${element.profile.last_name}, ${element.profile.first_name}, ${element.profile.title}
-                                          </button>
-                                        </h5>
-                                      </div>
-
-                                      <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                          <img src="${element.profile.image_url}">
-                                          <br>
-                                          ${element.profile.bio}
-                                          <br>
-                                          Phone Number - ${element.practices[0].phones[0].number}
-                                          <br>
-                                          Address - ${element.practices[0].name} ${element.practices[0].visit_address.city}, ${element.practices[0].visit_address.state_long} ${element.practices[0].visit_address.street} ${element.practices[0].visit_address.zip}
-                                          <br>
-                                          Accepting New Patients - ${acceptNewPatients}
-                                        </div>
-                                      </div>`
-            )
-        })
-      }
-    },
-    function(error) {
-      $('.resultDiv').text(`There was an error processing your request`);
-    });
-  }
+          <div class="card">
+          <div class="card-header" id="headingOne">
+          <h5 class="mb-0">
+          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+          ${element.profile.last_name}, ${element.profile.first_name}, ${element.profile.title}
+          </button>
+          </h5>
+          </div>
+          <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+          <div class="card-body">
+          <img src="${element.profile.image_url}">
+          <br>
+          ${element.profile.bio}
+          <br>
+          Phone Number - ${element.practices[0].phones[0].number}
+          <br>
+          Address - ${element.practices[0].name} ${element.practices[0].visit_address.city}, ${element.practices[0].visit_address.state_long} ${element.practices[0].visit_address.street} ${element.practices[0].visit_address.zip}
+          <br>
+          Accepting New Patients - ${acceptNewPatients}
+          </div>
+          </div>`
+        )
+      })
+    }
+  },
+  function(error) {
+    $('.resultDiv').text(`There was an error processing your request`);
+  });
+}
 });
