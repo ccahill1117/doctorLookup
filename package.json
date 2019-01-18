@@ -41,6 +41,8 @@
   "dependencies": {
     "bootstrap": "4.2.1",
     "jquery": "3.3.1",
-    "popper.js": "1.14.6"
+    "popper.js": "1.14.6",
+    "zipcode": "^0.1.1",
+    "zipcodes": "^8.0.0"
   }
 }

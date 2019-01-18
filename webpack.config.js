@@ -3,6 +3,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
+const zipcodes = require('zipcodes');
 
 module.exports = {
   entry: './src/main.js',
@@ -37,7 +38,7 @@ module.exports = {
         test: /\.js$/,
         exclude: [
                 /node_modules/,
-                /spec/
+
               ],
         loader: "eslint-loader"
       },
@@ -45,7 +46,7 @@ module.exports = {
        test: /\.js$/,
        exclude: [
          /node_modules/,
-         /spec/
+        
        ],
        loader: "babel-loader",
        options: {
