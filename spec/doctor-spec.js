@@ -1,4 +1,6 @@
 import { Doctor } from './../src/doctor.js';
+const zipcodes = require('zipcodes');
+import 'zipcodes'
 
 
   describe ('Doctor', function() {
@@ -6,4 +8,5 @@ import { Doctor } from './../src/doctor.js';
     var newThing = new Doctor("Chris");
     expect(newThing.name).toEqual("Chris");
   })
+   
 })

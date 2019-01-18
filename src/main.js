@@ -18,19 +18,40 @@ $(document).ready(function() {
     const userIssue = $("#inputIssue").val();
     const userZip = $("#inputCity").val();
     const lookupZip = zipcodes.lookup(userZip);
+    $(".resultDiv").empty();
 
     console.log(userIssue);
     console.log(userZip);
     console.log(lookupZip.city, lookupZip.latitude, lookupZip.longitude);
-    APICall(userIssue,lookupZip.latitude,lookupZip.longitude);
+    APICallIssue(userIssue,lookupZip.latitude,lookupZip.longitude);
 
   });
 
-  function APICall(issue,lat,long) {
-    let promise = doctor.getDoctor(issue, lat, long);      
+  function APICallIssue(issue,lat,long) {
+    let promise = doctor.getDoctor(issue, lat, long);
     promise.then(function(response) {
       let body = JSON.parse(response);
-      console.log(body);
+
+      body.data.forEach(function(element) {
+        $(".resultDiv").append(`<div class="accordion" id="accordionExample">
+                                  <div class="card">
+                                    <div class="card-header" id="headingOne">
+                                      <h5 class="mb-0">
+                                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                          ${element.profile.last_name}, ${element.profile.first_name}, ${element.profile.title}
+                                        </button>
+                                      </h5>
+                                    </div>
+
+                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                      <div class="card-body">
+                                        <img src="${element.profile.image_url}">
+                                        <br>
+                                        ${element.profile.bio}
+                                      </div>
+                                    </div>`
+          )
+      })
     },
     function(error) {
       $('#errorDiv').text(`There was an error processing your request`);
