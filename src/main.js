@@ -19,12 +19,14 @@ $(document).ready(function() {
     const userZip = $("#inputCity").val();
     const lookupZip = zipcodes.lookup(userZip);
     $(".resultDiv").empty();
-
     console.log(userIssue);
     console.log(userZip);
     console.log(lookupZip.city, lookupZip.latitude, lookupZip.longitude);
     APICallIssue(userIssue,lookupZip.latitude,lookupZip.longitude);
+  });
 
+  $("nameForm").submit(function(event) {
+    event.preventDefault();
   });
 
   function APICallIssue(issue,lat,long) {
