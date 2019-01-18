@@ -31,30 +31,37 @@ $(document).ready(function() {
     let promise = doctor.getDoctor(issue, lat, long);
     promise.then(function(response) {
       let body = JSON.parse(response);
-
-      body.data.forEach(function(element) {
-        $(".resultDiv").append(`<div class="accordion" id="accordionExample">
-                                  <div class="card">
-                                    <div class="card-header" id="headingOne">
-                                      <h5 class="mb-0">
-                                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                          ${element.profile.last_name}, ${element.profile.first_name}, ${element.profile.title}
-                                        </button>
-                                      </h5>
-                                    </div>
-
-                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                                      <div class="card-body">
-                                        <img src="${element.profile.image_url}">
-                                        <br>
-                                        ${element.profile.bio}
+      console.log(body);
+      if (body.data.length == 0) {
+        $(".resultDiv").text("no doctors fit that criteria")
+      }
+      else {
+        body.data.forEach(function(element) {
+          $(".resultDiv").append(`<div class="accordion" id="accordionExample">
+                                    <div class="card">
+                                      <div class="card-header" id="headingOne">
+                                        <h5 class="mb-0">
+                                          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                            ${element.profile.last_name}, ${element.profile.first_name}, ${element.profile.title}
+                                          </button>
+                                        </h5>
                                       </div>
-                                    </div>`
-          )
-      })
+
+                                      <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                          <img src="${element.profile.image_url}">
+                                          <br>
+                                          ${element.profile.bio}
+                                          <br>
+                                          
+                                        </div>
+                                      </div>`
+            )
+        })
+      }
     },
     function(error) {
-      $('#errorDiv').text(`There was an error processing your request`);
+      $('.resultDiv').text(`There was an error processing your request`);
     });
   }
 });
