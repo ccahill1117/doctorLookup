@@ -1,3 +1,4 @@
+import { Map } from './map';
 import { Doctor } from './doctor.js';
 import { APICallIssue, APICallNames } from './call.js'
 import $ from 'jquery';
@@ -6,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.css';
 import 'zipcodes'
 const zipcodes = require('zipcodes');
+const loadGoogleMapsApi = require('load-google-maps-api')
 
 $(document).ready(function() {
   const doctor = new Doctor
@@ -18,6 +20,7 @@ $(document).ready(function() {
     $(".resultDiv").empty();
     const drPromise = doctor.getDoctor(userIssue, lookupZip.latitude, lookupZip.longitude);
     APICallIssue(userIssue,lookupZip.latitude,lookupZip.longitude,drPromise);
+  
   });
 
   $("#nameForm").submit(function(event) {
