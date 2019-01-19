@@ -11,7 +11,7 @@ const loadGoogleMapsApi = require('load-google-maps-api')
 
 $(document).ready(function() {
   const doctor = new Doctor
-
+  
   $("#issueForm").submit(function(event) {
     event.preventDefault();
     const userIssue = $("#inputIssue").val();
@@ -20,7 +20,7 @@ $(document).ready(function() {
     $(".resultDiv").empty();
     const drPromise = doctor.getDoctor(userIssue, lookupZip.latitude, lookupZip.longitude);
     APICallIssue(userIssue,lookupZip.latitude,lookupZip.longitude,drPromise);
-  
+
   });
 
   $("#nameForm").submit(function(event) {
