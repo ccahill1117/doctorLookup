@@ -1,4 +1,4 @@
-import { Map } from './map';
+import { Map } from './map.js';
 import $ from 'jquery';
 const loadGoogleMapsApi = require('load-google-maps-api')
 
@@ -6,9 +6,8 @@ export function APICallIssue(issue,lat,long,drPromise) {
   let promise = drPromise;
   promise.then(function(response) {
     let body = JSON.parse(response);
-    console.log(body);
     if (body.data.length == 0) {
-      $(".resultDiv").text("no doctors fit that criteria")
+      $(".resultDiv").text("no doctors fit that criteria");
     }
     else {
       let mapDivCounter = 0;
@@ -54,7 +53,6 @@ export function APICallIssue(issue,lat,long,drPromise) {
         loadPromise.then(function(googleMaps) {
           let map = Map.createMap(googleMaps, mapElement, element.practices[0].visit_address.lat, element.practices[0].visit_address.lon);
         });
-        console.log(mapElement, loadPromise);
       })
     }
   },

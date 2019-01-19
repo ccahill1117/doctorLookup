@@ -1,4 +1,4 @@
-import { Map } from './map';
+import { Map } from './map.js';
 import { Doctor } from './doctor.js';
 import { APICallIssue, APICallNames } from './call.js'
 import $ from 'jquery';
@@ -11,7 +11,7 @@ const loadGoogleMapsApi = require('load-google-maps-api')
 
 $(document).ready(function() {
   const doctor = new Doctor
-  
+
   $("#issueForm").submit(function(event) {
     event.preventDefault();
     const userIssue = $("#inputIssue").val();
